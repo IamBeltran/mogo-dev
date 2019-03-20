@@ -53,6 +53,14 @@
     "nodemon": "^1.18.9",
     "prettier": "^1.16.4"
   },
+  "directories": {
+    "lib": "./directories/lib",
+    "bin": "./directories/bin",
+    "man": "./directories/man",
+    "doc": "./directories/doc",
+    "example": "./directories/example",
+    "test": "./directories/test"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
