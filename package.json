@@ -2,6 +2,47 @@
   "name": "mongo-dev",
   "version": "0.0.0",
   "description": "Repository that contains a project for tests, development, build, and deploy, of databases in MongoDB",
+  "keywords": [
+    "Build",
+    "Database",
+    "Deploy",
+    "Development",
+    "Javascript",
+    "MongoDB"
+  ],
+  "homepage": "https://github.com/IamBeltran/mogo-dev#readme",
+  "bugs": {
+    "url": "https://github.com/IamBeltran/mogo-dev/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IamBeltran/mogo-dev.git"
+  },
+  "license": "MIT",
+  "author": "Victor Giovanni Beltrán Rodriguez <beltran-victor@outlook.com> (example.com)",
+  "contributors": [
+    {
+      "name": "Victor Giovanni Beltrán Rodriguez",
+      "email": "beltran-victor@outlook.com"
+    }
+  ],
+  "main": "src/server/bin/www",
+  "directories": {
+    "lib": "./directories/lib",
+    "bin": "./directories/bin",
+    "man": "./directories/man",
+    "doc": "./directories/doc",
+    "example": "./directories/example",
+    "test": "./directories/test"
+  },
+  "scripts": {
+    "precommit": "node run lint",
+    "start": "cross-env NODE_ENV=production node src/server/bin/www",
+    "start-development": "cross-env NODE_ENV=development nodemon ./src/server.js",
+    "start-test": "cross-env NODE_ENV=test nodemon ./src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-quick": "cross-env NODE_ENV=test nodemon ./test.quick.js"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
@@ -61,46 +102,5 @@
   ],
   "cpu": [],
   "preferGlobal": true,
-  "analyze": true,
-  "main": "src/server/bin/www",
-  "directories": {
-    "lib": "./directories/lib",
-    "bin": "./directories/bin",
-    "man": "./directories/man",
-    "doc": "./directories/doc",
-    "example": "./directories/example",
-    "test": "./directories/test"
-  },
-  "scripts": {
-    "precommit": "node run lint",
-    "start": "cross-env NODE_ENV=production node src/server/bin/www",
-    "start-development": "cross-env NODE_ENV=development nodemon ./src/server.js",
-    "start-test": "cross-env NODE_ENV=test nodemon ./src/server.js",
-    "test-quick": "cross-env NODE_ENV=test nodemon ./test.quick.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/IamBeltran/mogo-dev.git"
-  },
-  "keywords": [
-    "Build",
-    "Database",
-    "Deploy",
-    "Development",
-    "Javascript",
-    "MongoDB"
-  ],
-  "author": "Victor Giovanni Beltrán Rodriguez <beltran-victor@outlook.com> (example.com)",
-  "contributors": [
-    {
-      "name": "Victor Giovanni Beltrán Rodriguez",
-      "email": "beltran-victor@outlook.com"
-    }
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/IamBeltran/mogo-dev/issues"
-  },
-  "homepage": "https://github.com/IamBeltran/mogo-dev#readme"
+  "analyze": true
 }
