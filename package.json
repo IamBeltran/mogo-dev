@@ -2,7 +2,6 @@
   "name": "mongo-dev",
   "version": "0.0.0",
   "description": "Repository that contains a project for tests, development, build, and deploy, of databases in MongoDB",
-  "main": "./src/index.js",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
