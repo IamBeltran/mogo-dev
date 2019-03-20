@@ -72,6 +72,11 @@
     "test": "./directories/test"
   },
   "scripts": {
+    "precommit": "node run lint",
+    "start": "cross-env NODE_ENV=production node src/server/bin/www",
+    "start-development": "cross-env NODE_ENV=development nodemon ./src/server.js",
+    "start-test": "cross-env NODE_ENV=test nodemon ./src/server.js",
+    "test-quick": "cross-env NODE_ENV=test nodemon ./test.quick.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
