@@ -26,7 +26,7 @@
       "email": "beltran-victor@outlook.com"
     }
   ],
-  "main": "src/server/bin/www",
+  "main": "./src/server/bin/www",
   "directories": {
     "lib": "./directories/lib",
     "bin": "./directories/bin",
@@ -37,11 +37,11 @@
   },
   "scripts": {
     "precommit": "node run lint",
-    "start": "cross-env NODE_ENV=production node src/server/bin/www",
+    "start": "cross-env NODE_ENV=production node ./src/server/bin/www",
     "start-development": "cross-env NODE_ENV=development nodemon ./src/server.js",
     "start-test": "cross-env NODE_ENV=test nodemon ./src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test-quick": "cross-env NODE_ENV=test nodemon ./test.quick.js"
+    "test-quick": "cross-env NODE_ENV=test nodemon ./quick.test.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
