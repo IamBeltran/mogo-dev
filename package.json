@@ -1,0 +1,32 @@
+{
+  "name": "mongo-dev",
+  "version": "0.0.0",
+  "description": "Repository that contains a project for tests, development, build, and deploy, of databases in MongoDB",
+  "main": "./src/index.js",
+  "dependencies": {
+    "babel-eslint": "^10.0.1",
+    "cross-env": "^5.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IamBeltran/mogo-dev.git"
+  },
+  "keywords": [
+    "Build",
+    "Database",
+    "Deploy",
+    "Development",
+    "Javascript",
+    "MongoDB"
+  ],
+  "author": "Victor Giovanni Beltrán Rodriguez <beltran-victor@outlook.com> (example.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IamBeltran/mogo-dev/issues"
+  },
+  "homepage": "https://github.com/IamBeltran/mogo-dev#readme"
+}
