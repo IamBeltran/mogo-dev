@@ -77,6 +77,12 @@
     "MongoDB"
   ],
   "author": "Victor Giovanni Beltrán Rodriguez <beltran-victor@outlook.com> (example.com)",
+  "contributors": [
+    {
+      "name": "Victor Giovanni Beltrán Rodriguez",
+      "email": "beltran-victor@outlook.com"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/IamBeltran/mogo-dev/issues"
