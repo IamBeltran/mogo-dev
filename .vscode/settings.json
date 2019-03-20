@@ -14,6 +14,7 @@
     ".huskyrc":true,
     ".lintstagedrc": true,
     ".babelrc": true,
+    ".prettierrc": true,
     "LICENSE": true,
     "COMMIT_EDITMSG": true,
     "README.md": true,
