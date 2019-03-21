@@ -41,7 +41,7 @@
     "start-development": "cross-env NODE_ENV=development nodemon ./src/server.js",
     "start-test": "cross-env NODE_ENV=test nodemon ./src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test-quick": "cross-env NODE_ENV=test nodemon ./quick.test.js"
+    "quick-test": "cross-env NODE_ENV=test nodemon ./quick.test.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
