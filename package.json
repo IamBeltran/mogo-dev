@@ -44,6 +44,7 @@
     "quick-test": "cross-env NODE_ENV=test nodemon ./quick.test.js"
   },
   "dependencies": {
+    "backup-manager": "^0.6.8",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "chalk": "^2.4.2",
