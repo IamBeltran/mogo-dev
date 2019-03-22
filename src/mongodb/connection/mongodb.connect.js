@@ -109,14 +109,14 @@ mongoose.connection.on('uninitialized', () => {
 
 //  ──[  IF THE NODE PROCESS ENDS, CLOSE THE MONGOOSE CONNECTION.  ]─────────────────────
 process.on('SIGINT', () => {
-  middleware.DBSExit();
+  middleware.DBExit();
   mongoose.connection.close(() => {
     process.exit(0);
   });
 });
 
 process.on('SIGTERM', () => {
-  middleware.DBSExit();
+  middleware.DBExit();
   mongoose.connection.close(() => {
     process.exit(0);
   });

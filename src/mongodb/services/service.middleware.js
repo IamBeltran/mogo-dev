@@ -121,9 +121,12 @@ const middleware = {
     console.log(`${infoMsg(`→ NUMBER THE PORT:`)}        ${parseInt(port, 10)}`);
     console.log(`${infoMsg(`→ URI:`)}                    ${url.toUpperCase()}\n${line}`);
   },
-  DBSExit: () => {
+  DBExit: () => {
     console.log(`${infoMsg(`→ MONGODB  CONNECTION END`)}`);
     console.log(`${infoMsg(`→ THROUGH APP TERMINATION`)}\n${line}`);
+  },
+  DBBackup: () => {
+    console.log(`${infoMsg(`→ RESTORE COMPLETED AND VERIFIED`)}\n${line}`);
   },
 };
 
