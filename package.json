@@ -65,10 +65,9 @@
     "method-override": "^3.0.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.23",
-    "mongodb-backup": "^1.6.9",
-    "mongodb-restore": "^1.6.2",
     "mongoose": "^5.4.17",
     "mongoose-unique-validator": "^2.0.2",
+    "mongopack": "^1.0.2",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
     "open-browsers": "^1.1.1",
@@ -103,5 +102,10 @@
   ],
   "cpu": [],
   "preferGlobal": true,
-  "analyze": true
+  "analyze": true,
+  "nodemonConfig": {
+    "ignore": [
+      "*.json"
+    ]
+  }
 }
