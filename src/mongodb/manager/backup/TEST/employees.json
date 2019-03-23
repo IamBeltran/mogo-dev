@@ -1,0 +1,48 @@
+{
+	"_id": {
+		"$oid": "5c94661e4a4e171c180fc011"
+	},
+	"name": "Lesslie Karina Aguilar Roque",
+	"position": "Manager",
+	"office": "Marketing",
+	"salary": 1500,
+	"reg_time": {
+		"$date": "2019-03-22T04:35:42.650Z"
+	}
+}
+{
+	"_id": {
+		"$oid": "5c946622ad2f8e1b8024b7d2"
+	},
+	"name": "Lesslie Karina Aguilar Roque",
+	"position": "Manager",
+	"office": "Marketing",
+	"salary": 1500,
+	"reg_time": {
+		"$date": "2019-03-22T04:35:46.896Z"
+	}
+}
+{
+	"_id": {
+		"$oid": "5c9466384dfda82328d21d7c"
+	},
+	"name": "Lesslie Karina Aguilar Roque",
+	"position": "Manager",
+	"office": "Marketing",
+	"salary": 1500,
+	"reg_time": {
+		"$date": "2019-03-22T04:36:08.412Z"
+	}
+}
+{
+	"_id": {
+		"$oid": "5c946652b77028230c7739b4"
+	},
+	"name": "Lesslie Karina Aguilar Roque",
+	"position": "Manager",
+	"office": "Marketing",
+	"salary": 1500,
+	"reg_time": {
+		"$date": "2019-03-22T04:36:34.680Z"
+	}
+}
