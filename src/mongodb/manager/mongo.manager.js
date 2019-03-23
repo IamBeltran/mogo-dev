@@ -53,35 +53,45 @@ const options = { user, pass, host, port, type: 'json' };
 //  │  MODULE BACKUP DATABASE.                                                          │
 //  └───────────────────────────────────────────────────────────────────────────────────┘
 // optionsBackup = { collection, fields }
-function backupDB(optionsBackup) {
+async function backupDB(optionsBackup) {
   const { collection, fields } = optionsBackup;
   const destination = `${backupPath}/${database}/${collection}.${options.type}`;
   const optionsExport = Object.assign({}, options, { pretty: true, fields });
 
-  mongoexport(database, collection, destination, optionsExport, err => {
-    if (err) {
-      middleware.error(err, 'BACKUP');
-    } else {
-      middleware.DBBackup(collection);
-    }
+  const promiseExport = new Promise((resolve, reject) => {
+    mongoexport(database, collection, destination, optionsExport, err => {
+      if (err) {
+        middleware.error(err, 'BACKUP');
+      } else {
+        middleware.DBBackup(collection);
+      }
+      return err ? reject(new Error('Error: Failed backup')) : resolve(true);
+    });
   });
+
+  return promiseExport;
 }
 
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
 //  │  MODULE RESTORE DATABASE.                                                         │
 //  └───────────────────────────────────────────────────────────────────────────────────┘
 // optionsRestore = { collection }
-function restoreDB(optionsRestore) {
+async function restoreDB(optionsRestore) {
   const { collection } = optionsRestore;
   const destination = `${backupPath}/${database}/${collection}.${options.type}`;
 
-  mongoimport(database, collection, destination, options, err => {
-    if (err) {
-      middleware.error(err, 'RESTORE');
-    } else {
-      middleware.DBRestore(collection);
-    }
+  const promiseRestore = new Promise((resolve, reject) => {
+    mongoimport(database, collection, destination, options, err => {
+      if (err) {
+        middleware.error(err, 'RESTORE');
+      } else {
+        middleware.DBRestore(collection);
+      }
+      return err ? reject(new Error('Error: Failed restore')) : resolve(true);
+    });
   });
+
+  return promiseRestore;
 }
 
 //  ──[  EXPORT MODULE  ]────────────────────────────────────────────────────────────────
