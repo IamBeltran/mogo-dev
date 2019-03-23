@@ -125,8 +125,13 @@ const middleware = {
     console.log(`${infoMsg(`→ MONGODB  CONNECTION END`)}`);
     console.log(`${infoMsg(`→ THROUGH APP TERMINATION`)}\n${line}`);
   },
-  DBBackup: () => {
-    console.log(`${infoMsg(`→ RESTORE COMPLETED AND VERIFIED`)}\n${line}`);
+  DBBackup: collection => {
+    console.log(`${infoMsg(`→ EXPORT COMPLETED, CHECK OUTPUT TO VERIFY`)}`);
+    console.log(`${infoMsg(`→ COLLECTION: ${collection}`)}\n${line}`);
+  },
+  DBRestore: collection => {
+    console.log(`${infoMsg(`→ RESTORE COMPLETED AND VERIFIED`)}`);
+    console.log(`${infoMsg(`→ COLLECTION: ${collection}`)}\n${line}`);
   },
 };
 
