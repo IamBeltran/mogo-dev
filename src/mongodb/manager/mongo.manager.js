@@ -50,10 +50,10 @@ const backupPath = 'src/mongodb/manager/backup/';
 const options = { user, pass, host, port, type: 'json' };
 
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
-//  │  DECLARATION OF CONSTANTS.                                                        │
+//  │  MODULE BACKUP DATABASE.                                                          │
 //  └───────────────────────────────────────────────────────────────────────────────────┘
 // optionsBackup = { collection, fields }
-function backupBD(optionsBackup) {
+function backupDB(optionsBackup) {
   const { collection, fields } = optionsBackup;
   const destination = `${backupPath}/${database}/${collection}.${options.type}`;
   const optionsExport = Object.assign({}, options, { pretty: true, fields });
@@ -67,7 +67,11 @@ function backupBD(optionsBackup) {
   });
 }
 
-function restoreBD(optionsRestore) {
+//  ┌───────────────────────────────────────────────────────────────────────────────────┐
+//  │  MODULE RESTORE DATABASE.                                                         │
+//  └───────────────────────────────────────────────────────────────────────────────────┘
+// optionsRestore = { collection }
+function restoreDB(optionsRestore) {
   const { collection } = optionsRestore;
   const destination = `${backupPath}/${database}/${collection}.${options.type}`;
 
@@ -81,5 +85,5 @@ function restoreBD(optionsRestore) {
 }
 
 //  ──[  EXPORT MODULE  ]────────────────────────────────────────────────────────────────
-module.exports.backup = backupBD;
-module.exports.restore = restoreBD;
+module.exports.backup = backupDB;
+module.exports.restore = restoreDB;
