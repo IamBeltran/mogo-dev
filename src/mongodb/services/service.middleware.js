@@ -133,6 +133,26 @@ const middleware = {
     console.log(`${infoMsg(`→ RESTORE COMPLETED AND VERIFIED`)}`);
     console.log(`${infoMsg(`→ COLLECTION: ${collection}`)}\n${line}`);
   },
+  DBEreased: () => {
+    console.log(`${infoMsg(`→ DATABASE EREASED:`)}       ${checkMark}`);
+    console.log(`${line}`);
+  },
+  SEEDStart: () => {
+    console.log(`${infoMsg(`→ START SEEDING:`)}          ${checkMark}`);
+    console.log(`${line}`);
+  },
+  SEEDSuccess: () => {
+    console.log(
+      `\n${line}\n${infoMsg(`→ SUCCESS`)}                  ${checkMark}\n${line}`,
+    );
+  },
+  SEEDInfo: (modelName, databaseName, dumpsLength) => {
+    console.log(`${infoMsg(`→ FINISHED PROCESS`)}         ${checkMark}`);
+    console.log(`${infoMsg(`→ FIELDS:`)}                  ${parseInt(dumpsLength, 10)}`);
+    console.log(`${infoMsg(`→ COLLECTION:`)}              ${modelName.toUpperCase()}`);
+    console.log(`${infoMsg(`→ DATABASE:`)}                ${databaseName.toUpperCase()}`);
+    console.log(`${line}`);
+  },
 };
 
 //  ──[  EXPORT MODULE  ]──────────────────────────────────────────────────────────────────
