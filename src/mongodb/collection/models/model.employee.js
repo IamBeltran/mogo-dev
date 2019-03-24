@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
 //  │ REQUIRE MY-MODULES DEPENDENCIES.                                                  │
 //  └───────────────────────────────────────────────────────────────────────────────────┘
-const EmployeeSchema = require('../schemas/employee/schema.employee');
+const { EmployeeSchema } = require('../schemas');
 
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
 //  │ DECLARATION OF CONSTANTS.                                                         │
