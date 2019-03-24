@@ -1,6 +1,6 @@
 {
   "name": "mongo-dev",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Repository that contains a project for tests, development, build, and deploy, of databases in MongoDB",
   "keywords": [
     "Build",
