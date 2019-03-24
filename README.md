@@ -1,5 +1,5 @@
 # MongoDB Build
-![Logotipo de proyecto](directories/doc/PROJECT.LOGO.png)
+![Logotipo de proyecto](directories/doc/assets/PROJECT.LOGO.png)
 
 Repositorio que contiene un proyecto para pruebas, desarrollo, creación e implementación de bases de datos en **MongoDB**
 
