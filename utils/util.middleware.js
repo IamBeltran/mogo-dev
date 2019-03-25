@@ -48,24 +48,24 @@ const middleware = {
       console.error(errorMsg(`${stack.toUpperCase()}${Nline}`));
     }
   },
-  warn: (warn, context) => {
+  warning: (warning, context) => {
     if (context) {
-      console.warn(warnMsg(`WARNING IN: ${context.toUpperCase()}`));
+      console.warn(warnMsg(`${'→ WARNING IN:'}${context.toUpperCase()}`));
     } else {
-      console.warn(warnMsg(`WARNING IN: CODE`));
+      console.warn(warnMsg(`→ WARNING IN: CODE`));
     }
-    if (warn.name) {
-      const { name } = warn;
-      console.warn(warnMsg(`    NAME: ${name.toUpperCase()}`));
+    if (warning.name) {
+      const { name } = warning;
+      console.warn(warnMsg(`${'→ NAME:'}${name.toUpperCase()}`));
     }
-    if (warn.message) {
-      const { message } = warn;
-      console.warn(warnMsg(` MESSAGE: ${message.toUpperCase()}`));
+    if (warning.message) {
+      const { message } = warning;
+      console.warn(warnMsg(`→ MESSAGE: ${message.toUpperCase()}`));
     }
-    if (warn.stack) {
-      let { stack } = warn;
-      stack = stack.replace(`${warn.name}: ${warn.message}\n`, '');
-      console.warn(warnMsg(`   STACK: \u2935${Nline}`));
+    if (warning.stack) {
+      let { stack } = warning;
+      stack = stack.replace(`${warning.name}: ${warning.message}\n`, '');
+      console.warn(warnMsg(`→ STACK: \u2935${Nline}`));
       console.warn(warnMsg(`${stack.toUpperCase()}${Nline}`));
     }
   },
