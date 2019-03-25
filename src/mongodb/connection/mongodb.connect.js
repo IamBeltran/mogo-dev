@@ -122,8 +122,7 @@ process.on('SIGTERM', () => {
   });
 });
 
-//  ──[  EXPORT MODULE  ]──────────────────────────────────────────────────────────────────
-module.exports = async () => {
+async function connection() {
   await mongoose
     .connect(databaseUrl, options)
     .then(() => {
@@ -132,4 +131,7 @@ module.exports = async () => {
     .catch(error => {
       middleware.error(error, 'DATABASE');
     });
-};
+}
+
+//  ──[  EXPORT MODULE  ]──────────────────────────────────────────────────────────────────
+module.exports = connection;
