@@ -1,159 +1,131 @@
 /* eslint-disable no-console */
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
-//  │  REQUIRE THIRD-PARTY MODULES DEPENDENCY.                                          │
+//  │ REQUIRE NODE-MODULE DEPENDENCIES.                                                 │
 //  └───────────────────────────────────────────────────────────────────────────────────┘
-const chalk = require('chalk');
+const path = require('path');
+const fs = require('fs');
+
+//  ──[ UTILS.  ]────────────────────────────────────────────────────────────────────────
+const appDirectory = fs.realpathSync(process.cwd());
+const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
-//  │  DECLARATION OF CONSTANTS.                                                        │
+//  │ REQUIRE MY-MODULES DEPENDENCIES.                                                  │
 //  └───────────────────────────────────────────────────────────────────────────────────┘
-// const successMsg = chalk.bold.green;
-// const urlMsg = chalk.blue;
-// const checkMarkX = chalk.red('[✘]');
-//  ──[  UTILS.  ]───────────────────────────────────────────────────────────────────────
-const checkMark = chalk.green('[✓]');
-const infoMsg = chalk.bold.blue;
-const errorMsg = chalk.bold.red;
-const warnMsg = chalk.bold.yellow;
-const line = chalk.gray('----------------------------------------------------');
+
+//  ──[ PATHS MODULES.  ]────────────────────────────────────────────────────────────────
+const utils = resolveApp('utils');
+
+//  ──[ REQUIRE MODULES.  ]──────────────────────────────────────────────────────────────
+const util = require(utils);
 
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
-//  │  BUILD MODULE LOGGER MIDDLEWARE.                                                  │
+//  │ DESTRUCTURING DEPENDENCIES.                                                       │
 //  └───────────────────────────────────────────────────────────────────────────────────┘
-const middleware = {
-  error: (error, context) => {
-    if (context) {
-      console.error(errorMsg(`ERROR IN: ${context.toUpperCase()}`));
-    } else {
-      console.error(errorMsg(`ERROR IN: CODE`));
-    }
-    if (error.name) {
-      const { name } = error;
-      console.error(errorMsg(`    NAME: ${name.toUpperCase()}`));
-    }
-    if (error.message) {
-      const { message } = error;
-      console.error(errorMsg(` MESSAGE: ${message.toUpperCase()}`));
-    }
-    if (error.stack) {
-      let { stack } = error;
-      stack = stack.replace(`${error.name}: ${error.message}\n`, '');
-      console.error(errorMsg(`   STACK: \u2935\n${line}`));
-      console.error(errorMsg(`${stack.toUpperCase()}\n${line}`));
-    }
-  },
-  warn: (warn, context) => {
-    if (context) {
-      console.warn(warnMsg(`WARNING IN: ${context.toUpperCase()}`));
-    } else {
-      console.warn(warnMsg(`WARNING IN: CODE`));
-    }
-    if (warn.name) {
-      const { name } = warn;
-      console.warn(warnMsg(`    NAME: ${name.toUpperCase()}`));
-    }
-    if (warn.message) {
-      const { message } = warn;
-      console.warn(warnMsg(` MESSAGE: ${message.toUpperCase()}`));
-    }
-    if (warn.stack) {
-      let { stack } = warn;
-      stack = stack.replace(`${warn.name}: ${warn.message}\n`, '');
-      console.warn(warnMsg(`   STACK: \u2935\n${line}`));
-      console.warn(warnMsg(`${stack.toUpperCase()}\n${line}`));
-    }
-  },
-  connectionOn: on => {
-    const mongoOn = on;
-    let state;
-    let event;
-    let msg;
+const { middleware, colorconsole }= util;
+const { infoMsg, line, Nline, checkMarkV } = colorconsole;
 
-    switch (mongoOn) {
-      case 'disconnected':
-        state = 0;
-        event = 'DISCONNECTED';
-        msg = '→ DATABASE CONNECTION TURN-OFF';
-        break;
-      case 'connected':
-        state = 1;
-        event = 'CONNECTED';
-        msg = '→ CONNECTION ESTABLISHED';
-        break;
-      case 'connecting':
-        state = 2;
-        break;
-      case 'disconnecting':
-        state = 3;
-        break;
-      case 'uninitialized':
-        state = 99;
-        break;
-      case 'error':
-        event = 'ERROR';
-        msg = '→ FAILED TO CONNECT TO DB ON STARTUP';
-        break;
-      case 'reconnected':
-        event = 'RECONNECTED';
-        msg = '→ CONNECTION REESTABLISHED';
-        break;
-      case 'close':
-        event = 'CLOSE';
-        msg = '→ CONNECTION CLOSED';
-        break;
-      default:
-        break;
-    }
+//  ┌───────────────────────────────────────────────────────────────────────────────────┐
+//  │ DECLARATION OF CONSTANTS.                                                         │
+//  └───────────────────────────────────────────────────────────────────────────────────┘
 
-    console.log(`${infoMsg(`→ MONGO DB IS:`)}            ${mongoOn.toUpperCase()}`);
-    if (state !== undefined) {
-      console.log(`${infoMsg(`→ CONNECTION IN STATE:`)}    ${state}`);
-    }
-    if (event !== undefined) {
-      console.log(`${infoMsg(`→ CONNECTION ON EVENT:`)}    ${event}`);
-      console.log(`${line}\n${infoMsg(`${msg}`)}`);
-    }
-    console.log(`${infoMsg(`${line}`)}`);
-  },
-  DBStarted: (name, port, url) => {
-    console.log(`${infoMsg(`→ CONNECTION ESTABLISHED:`)} ${checkMark}`);
-    console.log(`${infoMsg(`→ NAME DATABASE:`)}          ${name.toUpperCase()}`);
-    console.log(`${infoMsg(`→ NUMBER THE PORT:`)}        ${parseInt(port, 10)}`);
-    console.log(`${infoMsg(`→ URI:`)}                    ${url.toUpperCase()}\n${line}`);
-  },
-  DBExit: () => {
-    console.log(`${infoMsg(`→ MONGODB  CONNECTION END`)}`);
-    console.log(`${infoMsg(`→ THROUGH APP TERMINATION`)}\n${line}`);
-  },
-  DBBackup: collection => {
-    console.log(`${infoMsg(`→ EXPORT COMPLETED, CHECK OUTPUT TO VERIFY`)}`);
-    console.log(`${infoMsg(`→ COLLECTION: ${collection}`)}\n${line}`);
-  },
-  DBRestore: collection => {
-    console.log(`${infoMsg(`→ RESTORE COMPLETED AND VERIFIED`)}`);
-    console.log(`${infoMsg(`→ COLLECTION: ${collection}`)}\n${line}`);
-  },
-  DBEreased: () => {
-    console.log(`${infoMsg(`→ DATABASE EREASED:`)}       ${checkMark}`);
-    console.log(`${line}`);
-  },
-  SEEDStart: () => {
-    console.log(`${infoMsg(`→ START SEEDING:`)}          ${checkMark}`);
-    console.log(`${line}`);
-  },
-  SEEDSuccess: () => {
-    console.log(
-      `\n${line}\n${infoMsg(`→ SUCCESS`)}                  ${checkMark}\n${line}`,
-    );
-  },
-  SEEDInfo: (modelName, databaseName, dumpsLength) => {
-    console.log(`${infoMsg(`→ FINISHED PROCESS`)}         ${checkMark}`);
-    console.log(`${infoMsg(`→ FIELDS:`)}                  ${parseInt(dumpsLength, 10)}`);
-    console.log(`${infoMsg(`→ COLLECTION:`)}              ${modelName.toUpperCase()}`);
-    console.log(`${infoMsg(`→ DATABASE:`)}                ${databaseName.toUpperCase()}`);
-    console.log(`${line}`);
-  },
-};
+//  ┌───────────────────────────────────────────────────────────────────────────────────┐
+//  │ MODULE LOGGER MIDDLEWARE.                                                         │
+//  └───────────────────────────────────────────────────────────────────────────────────┘
 
-//  ──[  EXPORT MODULE  ]──────────────────────────────────────────────────────────────────
-module.exports = middleware;
+//  ──[ EXPORT MODULE  ]─────────────────────────────────────────────────────────────────
+module.exports = Object.assign({},
+  middleware,
+  {
+    connectionOn: on => {
+      const mongoOn = on;
+      let state;
+      let event;
+      let msg;
+
+      switch (mongoOn) {
+        case 'disconnected':
+          state = 0;
+          event = 'DISCONNECTED';
+          msg = '→ DATABASE CONNECTION TURN-OFF';
+          break;
+        case 'connected':
+          state = 1;
+          event = 'CONNECTED';
+          msg = '→ CONNECTION ESTABLISHED';
+          break;
+        case 'connecting':
+          state = 2;
+          break;
+        case 'disconnecting':
+          state = 3;
+          break;
+        case 'uninitialized':
+          state = 99;
+          break;
+        case 'error':
+          event = 'ERROR';
+          msg = '→ FAILED TO CONNECT TO DB ON STARTUP';
+          break;
+        case 'reconnected':
+          event = 'RECONNECTED';
+          msg = '→ CONNECTION REESTABLISHED';
+          break;
+        case 'close':
+          event = 'CLOSE';
+          msg = '→ CONNECTION CLOSED';
+          break;
+        default:
+          break;
+      }
+
+      console.log(`${infoMsg(`→ MONGO DB IS:`)}            ${mongoOn.toUpperCase()}`);
+      if (state !== undefined) {
+        console.log(`${infoMsg(`→ CONNECTION IN STATE:`)}    ${state}`);
+      }
+      if (event !== undefined) {
+        console.log(`${infoMsg(`→ CONNECTION ON EVENT:`)}    ${event}`);
+        console.log(`${line}\n${infoMsg(`${msg}`)}`);
+      }
+      console.log(`${infoMsg(`${line}`)}`);
+    },
+    DBStarted: (name, port, url) => {
+      console.log(`${infoMsg(`→ CONNECTION ESTABLISHED:`)} ${checkMarkV}`);
+      console.log(`${infoMsg(`→ NAME DATABASE:`)}          ${name.toUpperCase()}`);
+      console.log(`${infoMsg(`→ NUMBER THE PORT:`)}        ${parseInt(port, 10)}`);
+      console.log(`${infoMsg(`→ URI:`)}                    ${url.toUpperCase()}${Nline}`);
+    },
+    DBExit: () => {
+      console.log(`${infoMsg(`→ MONGODB  CONNECTION END`)}`);
+      console.log(`${infoMsg(`→ THROUGH APP TERMINATION`)}${Nline}`);
+    },
+    DBBackup: collection => {
+      console.log(`${infoMsg(`→ EXPORT COMPLETED, CHECK OUTPUT TO VERIFY`)}`);
+      console.log(`${infoMsg(`→ COLLECTION: ${collection}`)}${Nline}`);
+    },
+    DBRestore: collection => {
+      console.log(`${infoMsg(`→ RESTORE COMPLETED AND VERIFIED`)}`);
+      console.log(`${infoMsg(`→ COLLECTION: ${collection}`)}${Nline}`);
+    },
+    DBEreased: () => {
+      console.log(`${infoMsg(`→ DATABASE EREASED:`)}       ${checkMarkV}`);
+      console.log(`${line}`);
+    },
+    SEEDStart: () => {
+      console.log(`${infoMsg(`→ START SEEDING:`)}          ${checkMarkV}`);
+      console.log(`${line}`);
+    },
+    SEEDSuccess: () => {
+      console.log(
+        `${Nline}\n${infoMsg(`→ SUCCESS`)}                  ${checkMarkV}${Nline}`,
+      );
+    },
+    SEEDInfo: (modelName, databaseName, dumpsLength) => {
+      console.log(`${infoMsg(`→ FINISHED PROCESS`)}         ${checkMarkV}`);
+      console.log(`${infoMsg(`→ FIELDS:`)}                  ${parseInt(dumpsLength, 10)}`);
+      console.log(`${infoMsg(`→ COLLECTION:`)}              ${modelName.toUpperCase()}`);
+      console.log(`${infoMsg(`→ DATABASE:`)}                ${databaseName.toUpperCase()}`);
+      console.log(`${line}`);
+    },
+  },
+);
