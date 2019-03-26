@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<% include partials/_head %>
+<!--/ section -->
+<body>
+    <section id="main-wreapper" class="mt-4 ">
+        <div class="container">
+            <h2 id="error-status">Código de error: <%= status %> - <%= httpStatus %></h2>
+            <br>
+            <h4 class="alert alert-danger" role="alert">Mensaje de error: <%= message %></h4>
+            <hr class="mb-4">
+            <pre id="error-stack" class="text-white bg-dark p-3"><code class="text-monospace font-weight-light"><%= stack %></code></pre>
+        </div>
+      </section>
+
+    <% include partials/_footer_scripts %>
+    <!-- End Document
+    ================================================== -->
+</body>
+</html>
