@@ -26,6 +26,12 @@
       "email": "beltran-victor@outlook.com"
     }
   ],
+  "maintainers":[
+    {
+      "name": "Victor Giovanni Beltrán Rodriguez",
+      "email": "beltran-victor@outlook.com"
+    }
+  ],
   "main": "./src/server/bin/www",
   "directories": {
     "lib": "./directories/lib",
