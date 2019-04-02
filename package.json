@@ -47,7 +47,8 @@
     "start-development": "cross-env NODE_ENV=development nodemon ./src/server.js",
     "start-test": "cross-env NODE_ENV=test nodemon ./src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "quick-test": "cross-env NODE_ENV=test nodemon ./quick.test.js"
+    "quick-test": "cross-env NODE_ENV=test nodemon ./quick.test.js",
+    "code-build": "cross-env NODE_ENV=test nodemon ./code.build.js"
   },
   "dependencies": {
     "backup-manager": "^0.6.8",
