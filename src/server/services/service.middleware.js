@@ -65,7 +65,7 @@ const middleware = {
       console.warn(warnMsg(`${stack.toUpperCase()}\n${line}`));
     }
   },
-  serverStarted: (port, environment, hostname) => {
+  serverStarted: (protocol, port, hostname, environment) => {
     const text1 = 'SERVER STARTED!'.padStart(22);
     const text2 = 'APP IN ENVIRONMENT:'.padStart(22);
     const text3 = 'NUMBER THE PORT:'.padStart(22);
@@ -83,8 +83,8 @@ const middleware = {
     console.log(`${line}\n`);
     console.log(`${chalk.bold(`${text5}`)}`);
     console.log(`${line}`);
-    console.log(`${text6}\t${url(`http://${hostname}:${port}`)}`);
-    console.log(`${text7}\t${url(`http://${ip.address()}:${port}`)}`);
+    console.log(`${text6}\t${url(`${protocol}://${hostname}:${port}`)}`);
+    console.log(`${text7}\t${url(`${protocol}://${ip.address()}:${port}`)}`);
     console.log(`${line}`);
     console.log(`${chalk.magenta(`       Press ${chalk.italic('CTRL-C')} to stop`)}`);
   },
