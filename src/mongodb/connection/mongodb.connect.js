@@ -22,11 +22,11 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 //  └───────────────────────────────────────────────────────────────────────────────────┘
 
 //  ──[ PATHS MODULES.  ]────────────────────────────────────────────────────────────────
-const services = resolveApp('src/mongodb/services');
+const utils = resolveApp('utils');
 const configurations = resolveApp('configuration');
 
 //  ──[ REQUIRE MODULES.  ]──────────────────────────────────────────────────────────────
-const service = require(services);
+const util = require(utils);
 const configuration = require(configurations);
 
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
@@ -34,7 +34,7 @@ const configuration = require(configurations);
 //  └───────────────────────────────────────────────────────────────────────────────────┘
 
 //  ──[ LOGGERS.  ]──────────────────────────────────────────────────────────────────────
-const { middleware } = service;
+const { middleware } = util;
 
 //  ──[ DESTRUCTURING LOGGERS.  ]────────────────────────────────────────────────────────
 
@@ -52,12 +52,12 @@ const databaseUrl = `${server}${host}:${port}/${name}`;
 
 //  ──[ WHEN IT IS DISCONNECTED.  ]──────────────────────────────────────────────────────
 mongoose.connection.on('disconnected', () => {
-  middleware.connectionOn('disconnected');
+  middleware.DBconnectionOn('disconnected');
 });
 
 //  ──[ WHEN IT IS CONNECTED.  ]─────────────────────────────────────────────────────────
 mongoose.connection.on('connected', () => {
-  middleware.connectionOn('connected');
+  middleware.DBconnectionOn('connected');
 });
 
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
@@ -66,18 +66,18 @@ mongoose.connection.on('connected', () => {
 
 //  ──[ IF THE CONNECTION THROWS AN ERROR.  ]────────────────────────────────────────────
 mongoose.connection.on('error', error => {
-  middleware.connectionOn('error');
+  middleware.DBconnectionOn('error');
   middleware.error(error, 'CONNECTION');
 });
 
 //  ──[ WHEN IT IS RECONNECTED.  ]───────────────────────────────────────────────────────
 mongoose.connection.on('reconnected', () => {
-  middleware.connectionOn('reconnected');
+  middleware.DBconnectionOn('reconnected');
 });
 
 //  ──[ WHEN IT IS CLOSE.  ]─────────────────────────────────────────────────────────────
 mongoose.connection.on('close', () => {
-  middleware.connectionOn('close');
+  middleware.DBconnectionOn('close');
 });
 
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
@@ -86,17 +86,17 @@ mongoose.connection.on('close', () => {
 
 //  ──[ WHEN IT IS CONNECTING.  ]────────────────────────────────────────────────────────
 mongoose.connection.on('connecting', () => {
-  middleware.connectionOn('connecting');
+  middleware.DBconnectionOn('connecting');
 });
 
 //  ──[ WHEN IT IS DISCONNECTING.  ]─────────────────────────────────────────────────────
 mongoose.connection.on('disconnecting', () => {
-  middleware.connectionOn('disconnecting');
+  middleware.DBconnectionOn('disconnecting');
 });
 
 //  ──[ WHEN IT IS UNINITIALIZED.  ]─────────────────────────────────────────────────────
 mongoose.connection.on('uninitialized', () => {
-  middleware.connectionOn('uninitialized');
+  middleware.DBconnectionOn('uninitialized');
 });
 
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
