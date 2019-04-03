@@ -22,62 +22,30 @@ const lib = require(libs);
 //  │ DESTRUCTURING DEPENDENCIES.                                                       │
 //  └───────────────────────────────────────────────────────────────────────────────────┘
 const {
-  logger: { database, express, server },
+  logger: { request },
 } = lib;
 
-//	┌───────────────────────────────────────────────────────────────────────────────────┐
-//	│	BUILD MODULE LOG FILE.																														│
-//	└───────────────────────────────────────────────────────────────────────────────────┘
-const logger = {
-  DBConnectionError: error => {
-    database.log({
-      level: 'error',
-      message: error,
-    });
+//  ┌───────────────────────────────────────────────────────────────────────────────────┐
+//  │ ADD LOGGER FOR STREAM.                                                            │
+//  └───────────────────────────────────────────────────────────────────────────────────┘
+request.stream = {
+  success: {
+    write: message => {
+      request.log({
+        level: 'info',
+        message: message.trim(),
+      });
+    },
   },
-  DBConnectionClose: () => {
-    database.log({
-      level: 'info',
-      message: 'CONNECTION CLOSED',
-    });
-  },
-  DBConnectionStart: (name, port, url) => {
-    database.log({
-      level: 'info',
-      message: { url, port, name },
-    });
-  },
-  DBError: error => {
-    database.log({
-      level: 'error',
-      message: error,
-    });
-  },
-  expressError: message => {
-    express.log({
-      level: 'error',
-      message,
-    });
-  },
-  serverError: errors => {
-    server.log({
-      level: 'error',
-      message: errors,
-    });
-  },
-  serverClose: () => {
-    server.log({
-      level: 'info',
-      message: 'CONNECTION CLOSED',
-    });
-  },
-  serverStart: (port, host, env) => {
-    server.log({
-      level: 'info',
-      message: { port, host, env },
-    });
+  error: {
+    write: message => {
+      request.log({
+        level: 'error',
+        message: message.trim(),
+      });
+    },
   },
 };
 
 //  ──[ EXPORT MODULE ]──────────────────────────────────────────────────────────────────
-module.exports = logger;
+module.exports = request;
