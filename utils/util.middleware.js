@@ -95,7 +95,7 @@ const middleware = {
       case 'connected':
         state = 1;
         event = 'CONNECTED';
-        message = 'CONNECTION ESTABLISHED'.padStart(39);
+        message = 'CONNECTION ESTABLISHED [DATABASE]'.padStart(44);
         break;
       case 'connecting':
         state = 2;
@@ -112,7 +112,7 @@ const middleware = {
         break;
       case 'reconnected':
         event = 'RECONNECTED';
-        message = 'CONNECTION REESTABLISHED'.padStart(40);
+        message = 'CONNECTION REESTABLISHED [DATABASE]'.padStart(45);
         break;
       case 'close':
         event = 'CLOSE';
@@ -253,7 +253,7 @@ const middleware = {
     console.log(`${line}`);
   },
   serverOnConnection: () => {
-    const text1 = 'CONNECTION ESTABLISHED'.padStart(39);
+    const text1 = 'CONNECTION ESTABLISHED [SERVER]'.padStart(43);
     console.log(`${blue(`${text1}`)}`);
     console.log(`${line}`);
   },
