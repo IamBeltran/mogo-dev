@@ -30,9 +30,7 @@ const util = require(utils);
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
 //  │  DESTRUCTURING DEPENDENCIES.                                                      │
 //  └───────────────────────────────────────────────────────────────────────────────────┘
-const {
-  logger: { stream },
-} = util;
+const { request } = util;
 
 //  | morgan(format, options);
 const dev = ':method :status :url :response-time ms - :res[content-length]';
@@ -48,7 +46,7 @@ module.exports.error = morgan(format, {
   skip: (req, res) => {
     return res.statusCode < 400;
   },
-  stream: stream.error,
+  stream: request.stream.error,
 });
 
 //  ──[  EXPORT MODULE  ]────────────────────────────────────────────────────────────────
@@ -56,5 +54,5 @@ module.exports.success = morgan(format, {
   skip: (req, res) => {
     return res.statusCode >= 400;
   },
-  stream: stream.success,
+  stream: request.stream.success,
 });
