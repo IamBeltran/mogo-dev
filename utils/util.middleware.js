@@ -15,7 +15,7 @@ const colorConsole = require('./util.colorconsole');
 //  │ DESTRUCTURING DEPENDENCIES.                                                       │
 //  └───────────────────────────────────────────────────────────────────────────────────┘
 const {
-  // checkMarkX,
+  checkMarkX,
   checkMarkV,
   line,
   lineN,
@@ -187,31 +187,74 @@ const middleware = {
     console.log(`${text4} ${blue(`${databaseName.toUpperCase()}`)}`);
     console.log(`${line}`);
   },
-  serverStarted: (protocol, hostname, port, environment) => {
+  serverStarted: (protocol, hostname, port, environment, engine, tunnelStarted) => {
     const text1 = 'SERVER STARTED:'.padStart(24);
-    const text2 = 'APP IN ENVIRONMENT:'.padStart(24);
-    const text3 = 'NUMBER THE PORT:'.padStart(24);
-    const text4 = 'INFO SERVER:'.padStart(24);
-    const text5 = "ACCESS URL'S:".padStart(24);
-    const text6 = 'LOCALHOST:'.padStart(24);
-    const text7 = 'LAN:'.padStart(24);
-    const text8 = 'Press CTRL-C to stop'.padStart(38);
+    const text2 = 'TUNNEL INITIALISED:'.padStart(24);
+    const text3 = 'INFO SERVER:'.padStart(24);
+    const text4 = 'APP IN ENVIRONMENT:'.padStart(24);
+    const text5 = 'NUMBER THE PORT:'.padStart(24);
+    const text6 = 'VIEW ENGINE:'.padStart(24);
+    const text7 = "ACCESS URL'S:".padStart(24);
+    const text8 = 'LOCALHOST:'.padStart(24);
+    const text9 = 'LAN:'.padStart(24);
+    const text10 = 'PROXY:'.padStart(24);
+    const text11 = 'TUNNEL INSPECTOR:'.padStart(24);
+    const text12 = 'Press CTRL-C to stop'.padStart(38);
 
     console.log(`${text1} ${checkMarkV}`);
+    if (tunnelStarted) {
+      console.log(`${text2} ${checkMarkV}`);
+    } else {
+      console.log(`${text2} ${checkMarkX}`);
+    }
     console.log(`${line}`);
-    console.log(`${bold(`${text4}`)}`);
-    console.log(`${text2} ${blue(`${environment.toUpperCase()}`)}`);
-    console.log(`${text3} ${blue(`${parseInt(port, 10)}`)}`);
+    console.log(`${bold(`${text3}`)}`);
+    console.log(`${text4} ${blue(`${environment.toUpperCase()}`)}`);
+    console.log(`${text5} ${blue(`${parseInt(port, 10)}`)}`);
+    console.log(`${text6} ${blue(`${engine.toUpperCase()}`)}`);
     console.log(`${line}`);
-    console.log(`${bold(`${text5}`)}`);
-    console.log(`${text6} ${blue(`${protocol}://${hostname}:${port}`)}`);
-    console.log(`${text7} ${blue(`${protocol}://${ip.address()}:${port}`)}`);
+    console.log(`${bold(`${text7}`)}`);
+    console.log(`${text8} ${blue(`${protocol}://${hostname}:${port}`)}`);
+    console.log(`${text9} ${blue(`${protocol}://${ip.address()}:${port}`)}`);
+    if (tunnelStarted) {
+      console.log(`${text10} ${blue(`${tunnelStarted}`)}`);
+      console.log(`${text11} ${blue(`http://127.0.0.1:4040`)}`);
+      console.log(`${line}`);
+    } else {
+      console.log(`${line}`);
+    }
+    console.log(`${blue(`${text12}`)}`);
     console.log(`${line}`);
-    console.log(`${blue(`${text8}`)}`);
   },
-  serverOn: (on, bind) => {
-    console.log(`${blue(`→ SERVER LISTENING ON ${bind}`)}`);
-    console.log(`${blue(`→ SERVER CLOSED ${bind}`)}  `);
+  serverOnError: (error, bind) => {
+    let message;
+    switch (error.code) {
+      case 'EACCES':
+        message = `${bind.toUpperCase()} REQUIRES ELEVATED PRIVILEGES`;
+        break;
+      case 'EADDRINUSE':
+        message = `${bind.toUpperCase()} IS ALREADY IN USE`;
+        break;
+      default:
+        break;
+    }
+    console.log(`${red(`${message}`)}`);
+    console.log(`${line}`);
+    process.exit(1);
+  },
+  serverOnListening: bind => {
+    const text1 = 'LISTENING ON:'.padStart(24);
+    console.log(`${text1} ${blue(`${bind.toUpperCase()}`)}`);
+    console.log(`${line}`);
+  },
+  serverOnClose: () => {
+    const text1 = 'CONNECTION TERMINATED'.padStart(38);
+    console.log(`${blue(`${text1}`)}`);
+    console.log(`${line}`);
+  },
+  serverOnConnection: () => {
+    const text1 = 'CONNECTION ESTABLISHED'.padStart(39);
+    console.log(`${blue(`${text1}`)}`);
     console.log(`${line}`);
   },
 };
