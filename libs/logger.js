@@ -134,7 +134,7 @@ const formatConsole = combine(
 addColors(options.colors);
 
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
-//  │ CREATE LOGGER.                                                                    │
+//  │ CREATE TRANSPORTS.                                                                │
 //  └───────────────────────────────────────────────────────────────────────────────────┘
 
 const databaseInfo = new winston.transports.DailyRotateFile({
@@ -195,6 +195,24 @@ const requestError = new winston.transports.DailyRotateFile({
   maxSize: '100m',
   maxFiles: '14d', // keep logs for 14 days
   auditFile: fileAudit,
+});
+
+const requestConsole = new transports.Console({
+  name: 'CONSOLE_FOR_MIDDLEWARE',
+  level: 'debug',
+  silent: false,
+  stderrLevels: ['error', 'debug', 'info'],
+  consoleWarnLevels: ['warn', 'debug', 'info'],
+  handleExceptions: false,
+  eol: os.EOL,
+  json: false,
+  colorize: true,
+  format: formatConsole,
+  options: {
+    flags: 'a+',
+    encoding: 'utf8',
+    mode: 0o666,
+  },
 });
 
 const serverInfo = new winston.transports.DailyRotateFile({
@@ -261,27 +279,7 @@ winston.loggers.add('request', {
     format.splat(),
     format.json(),
   ),
-  transports: [
-    requestInfo,
-    requestError,
-    new transports.Console({
-      name: 'CONSOLE_FOR_MIDDLEWARE',
-      level: 'debug',
-      silent: false,
-      stderrLevels: ['error', 'debug', 'info'],
-      consoleWarnLevels: ['warn', 'debug', 'info'],
-      handleExceptions: false,
-      eol: os.EOL,
-      json: false,
-      colorize: true,
-      format: formatConsole,
-      options: {
-        flags: 'a+',
-        encoding: 'utf8',
-        mode: 0o666,
-      },
-    }),
-  ],
+  transports: [requestInfo, requestError, requestConsole],
   exitOnError: false,
   silent: false,
 });
@@ -302,7 +300,7 @@ winston.loggers.add('server', {
 });
 
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
-//  │ CREATE LOGGER.                                                                    │
+//  │ TO ASSIGN LOGGERS.                                                                │
 //  └───────────────────────────────────────────────────────────────────────────────────┘
 const database = winston.loggers.get('database');
 const express = winston.loggers.get('express');
