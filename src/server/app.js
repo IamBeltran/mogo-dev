@@ -34,12 +34,14 @@ const pathPublic = resolveApp('src/server/public');
 
 //  ──[ PATH MODULES.  ]────────────────────────────────────────────────────────────────
 const configurations = resolveApp('configuration');
+const utils = resolveApp('utils');
 const middlewares = resolveApp('src/server/middlewares');
 const services = resolveApp('src/server/services');
 const routes = resolveApp('src/server/routes');
 
 //  ──[ REQUIRE MODULES.  ]─────────────────────────────────────────────────────────────
 const configuration = require(configurations);
+const util = require(utils);
 const middleware = require(middlewares);
 const service = require(services);
 const route = require(routes);
@@ -135,6 +137,7 @@ app.use((err, req, res, next) => {
   res.locals.stack = stack;
   res.locals.httpStatus = httpStatus;
 
+  util.middleware.error(err, 'Request');
   // render the error page
   res.status(err.status);
   res.render('error');
