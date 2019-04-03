@@ -126,18 +126,33 @@ app.use((err, req, res, next) => {
   // set locals, only providing error in development
   const status = err.status || 500;
   const errorName = err.name === 'Error' ? 'ERROR_IN_SERVER' : err.name;
-  const message = err.message || 'An unknown error in server';
+  const errorMessage = err.message || 'An unknown error in server';
   const httpStatus = HTTP_STATUS_CODE[status.toString()];
   const stack = err.stack ? err.stack.replace(`${err.name}: ${err.message}\n`, '') : '';
 
   res.locals.title = `Error: ${errorName}`;
   res.locals.status = status;
-  res.locals.errorName = errorName;
-  res.locals.message = message;
+  res.locals.name = errorName;
+  res.locals.message = errorMessage;
   res.locals.stack = stack;
   res.locals.httpStatus = httpStatus;
 
+  const message = {
+    request: {
+      originalurl: req.originalUrl,
+      method: req.method,
+      ip: req.ip,
+    },
+    error: {
+      status,
+      message: errorMessage,
+      errorName,
+    },
+  };
+
+  util.logger.expressError(message);
   util.middleware.error(err, 'Request');
+
   // render the error page
   res.status(err.status);
   res.render('error');
