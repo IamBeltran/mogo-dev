@@ -1,0 +1,151 @@
+#!/usr/bin/env node
+/* eslint-disable no-console */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-use-before-define */
+
+//  ┌───────────────────────────────────────────────────────────────────────────────────┐
+//  │ REQUIRE THIRDPARTY-MODULES DEPENDENCY.                                            │
+//  └───────────────────────────────────────────────────────────────────────────────────┘
+const openBrowsers = require('open-browsers');
+
+//  ┌───────────────────────────────────────────────────────────────────────────────────┐
+//  │ REQUIRE NODEJS-MODULE DEPENDENCIES.                                               │
+//  └───────────────────────────────────────────────────────────────────────────────────┘
+const http = require('http');
+const path = require('path');
+const fs = require('fs');
+
+//  ──[ UTILS.  ]────────────────────────────────────────────────────────────────────────
+const appDirectory = fs.realpathSync(process.cwd());
+const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
+
+//  ┌───────────────────────────────────────────────────────────────────────────────────┐
+//  │ REQUIRE MY-MODULES DEPENDENCIES.                                                  │
+//  └───────────────────────────────────────────────────────────────────────────────────┘
+
+//  ──[ PATH MODULES. ]──────────────────────────────────────────────────────────────────
+const configurations = resolveApp('configuration');
+const utils = resolveApp('utils');
+const pathApp = resolveApp('src/server/app.js');
+const pathDatabase = resolveApp('src/mongodb');
+
+//  ──[ REQUIRE MODULES.  ]──────────────────────────────────────────────────────────────
+const configuration = require(configurations);
+const app = require(pathApp);
+const database = require(pathDatabase);
+const util = require(utils);
+
+//  ┌───────────────────────────────────────────────────────────────────────────────────┐
+//  │ DESTRUCTURING DEPENDENCIES.                                                       │
+//  └───────────────────────────────────────────────────────────────────────────────────┘
+
+//  ──[ SERVER. ]────────────────────────────────────────────────────────────────────────
+const {
+  SERVER: {
+    SERVER_PORT: serverPort,
+    SERVER_HOSTNAME: hostname,
+    SERVER_PROTOCOL: protocol,
+    SERVER_BASE_URL: baseUrl,
+  },
+} = configuration;
+
+//  ──[ UTIL. ]──────────────────────────────────────────────────────────────────────────
+const {
+  auxiliary: { normalizePort },
+  middleware,
+} = util;
+
+//  ──[ LOGGERS.  ]──────────────────────────────────────────────────────────────────────
+// const { middleware } = service;
+
+//  ┌───────────────────────────────────────────────────────────────────────────────────┐
+//  │ DECLARATION OF CONSTANTS.                                                         │
+//  └───────────────────────────────────────────────────────────────────────────────────┘
+
+//  ──[ ENVIRONMENT VARIABLES.  ]────────────────────────────────────────────────────────
+const environment = process.env.NODE_ENV;
+const isDev = environment !== 'production';
+const engine = app.get('view engine');
+
+//  ┌───────────────────────────────────────────────────────────────────────────────────┐
+//  │ SETTINGS APP.                                                                     │
+//  └───────────────────────────────────────────────────────────────────────────────────┘
+const port = normalizePort(serverPort);
+app.set('port', port);
+
+//  ┌───────────────────────────────────────────────────────────────────────────────────┐
+//  │ CREATE HTTP SERVER.                                                               │
+//  └───────────────────────────────────────────────────────────────────────────────────┘
+const server = http.createServer(app);
+
+//  ┌───────────────────────────────────────────────────────────────────────────────────┐
+//  │ LISTEN ON PROVIDED PORT, ON ALL NETWORK INTERFACES.                               │
+//  └───────────────────────────────────────────────────────────────────────────────────┘
+database
+  .connection()
+  .then(() => {
+    server.listen(port, hostname, async err => {
+      if (err) {
+        middleware.error(err, 'Database');
+      }
+      if (!isDev) {
+        openBrowsers(`${baseUrl}`);
+      }
+      middleware.serverStarted(protocol, hostname, port, environment, engine);
+    });
+  })
+  .catch(error => {
+    middleware.error(error, 'Database');
+  });
+
+//  ┌───────────────────────────────────────────────────────────────────────────────────┐
+//  │ EVENT LISTENER FOR HTTP SERVER EVENTS.                                            │
+//  └───────────────────────────────────────────────────────────────────────────────────┘
+
+//  ──[ CLOSE.  ]────────────────────────────────────────────────────────────────────────
+//  WHEN THE SERVER IS CLOSED
+server.on('close', () => {
+  middleware.serverOnClose();
+});
+
+//  ──[ CONNECTION. ]────────────────────────────────────────────────────────────────────
+//  WHEN USER TRIES TO CONNECT TO SERVER
+server.on('connection', () => {
+  middleware.serverOnConnection();
+});
+
+//  ──[ ERROR.  ]────────────────────────────────────────────────────────────────────────
+//  WHEN THE SERVER HAS ERROR
+server.on('error', error => {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+  const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
+  middleware.serverOnError(error, bind);
+});
+
+//  ──[ LISTENING.  ]────────────────────────────────────────────────────────────────────
+//  WHEN SERVER STARTS LISTENING
+server.on('listening', () => {
+  const addr = server.address();
+  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+  middleware.serverOnListening(bind);
+});
+
+//  ┌───────────────────────────────────────────────────────────────────────────────────┐
+//  │ EVENT LISTENER FOR PROCESS EVENTS.                                                │
+//  └───────────────────────────────────────────────────────────────────────────────────┘
+
+//  ──[ SIGINT. ]────────────────────────────────────────────────────────────────────────
+process.on('SIGINT', () => {
+  server.close(() => {
+    process.exit(0);
+  });
+});
+
+//  ──[ SIGTERM.  ]──────────────────────────────────────────────────────────────────────
+process.on('SIGTERM', () => {
+  server.close(() => {
+    process.exit(0);
+  });
+});
