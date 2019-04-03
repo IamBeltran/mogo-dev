@@ -110,9 +110,9 @@ server.on('close', () => {
 
 //  ──[ CONNECTION. ]────────────────────────────────────────────────────────────────────
 //  WHEN USER TRIES TO CONNECT TO SERVER
-server.on('connection', () => {
-  middleware.serverOnConnection();
-});
+// server.on('connection', () => {
+//   middleware.serverOnConnection();
+// });
 
 //  ──[ ERROR.  ]────────────────────────────────────────────────────────────────────────
 //  WHEN THE SERVER HAS ERROR
