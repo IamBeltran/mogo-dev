@@ -3,5 +3,4 @@
 //  └───────────────────────────────────────────────────────────────────────────────────┘
 
 //  ──[  EXPORT MODULE  ]────────────────────────────────────────────────────────────────
-module.exports.middleware = require('./service.middleware');
 module.exports.isMobile = require('./service.ismobile');
