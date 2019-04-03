@@ -22,12 +22,11 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 //  └───────────────────────────────────────────────────────────────────────────────────┘
 
 //  ──[  PATHS MODULES.  ]───────────────────────────────────────────────────────────────
-const services = resolveApp('src/mongodb/services');
+
 const configurations = resolveApp('configuration');
 const utils = resolveApp('utils');
 
 //  ──[  REQUIRE MODULES.  ]─────────────────────────────────────────────────────────────
-const service = require(services);
 const configuration = require(configurations);
 const util = require(utils);
 
@@ -36,7 +35,7 @@ const util = require(utils);
 //  └───────────────────────────────────────────────────────────────────────────────────┘
 
 //  ──[ DESTRUCTURING  SERVICE.  ]───────────────────────────────────────────────────────
-const { middleware } = service;
+const { middleware } = util;
 
 //  ──[  DESTRUCTURING UTIL.  ]──────────────────────────────────────────────────────────
 const {
@@ -93,12 +92,12 @@ async function processArray(model, dumps, seedOptions) {
 
 //  ──[  WHEN IT IS DISCONNECTED.  ]────────────────────────────────────────────────────
 mongoose.connection.on('disconnected', () => {
-  middleware.connectionOn('disconnected');
+  middleware.DBconnectionOn('disconnected');
 });
 
 //  ──[  WHEN IT IS CONNECTED.  ]────────────────────────────────────────────────────────
 mongoose.connection.on('connected', () => {
-  middleware.connectionOn('connected');
+  middleware.DBconnectionOn('connected');
 });
 
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
@@ -107,18 +106,18 @@ mongoose.connection.on('connected', () => {
 
 //  ──[  IF THE CONNECTION THROWS AN ERROR.  ]───────────────────────────────────────────
 mongoose.connection.on('error', error => {
-  middleware.connectionOn('error');
+  middleware.DBconnectionOn('error');
   middleware.error(error, 'CONNECTION');
 });
 
 //  ──[  WHEN IT IS RECONNECTED.  ]──────────────────────────────────────────────────────
 mongoose.connection.on('reconnected', () => {
-  middleware.connectionOn('reconnected');
+  middleware.DBconnectionOn('reconnected');
 });
 
 //  ──[  WHEN IT IS CLOSE.  ]────────────────────────────────────────────────────────────
 mongoose.connection.on('close', () => {
-  middleware.connectionOn('close');
+  middleware.DBconnectionOn('close');
 });
 
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
@@ -127,17 +126,17 @@ mongoose.connection.on('close', () => {
 
 //  ──[  WHEN IT IS CONNECTING.  ]──────────────────────────────────────────────────────
 mongoose.connection.on('connecting', () => {
-  middleware.connectionOn('connecting');
+  middleware.DBconnectionOn('connecting');
 });
 
 //  ──[  WHEN IT IS DISCONNECTING.  ]────────────────────────────────────────────────────
 mongoose.connection.on('disconnecting', () => {
-  middleware.connectionOn('disconnecting');
+  middleware.DBconnectionOn('disconnecting');
 });
 
 //  ──[  WHEN IT IS UNINITIALIZED.  ]────────────────────────────────────────────────────
 mongoose.connection.on('uninitialized', () => {
-  middleware.connectionOn('uninitialized');
+  middleware.DBconnectionOn('uninitialized');
 });
 
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
@@ -215,19 +214,19 @@ async function seedDatabase(model, dumps, seedOptions) {
         middleware.DBEreased();
       })
       .then(() => {
-        middleware.SEEDStart();
+        middleware.DBSeedStart();
       });
 
     await processArray(model, dumps, seedOptions)
       .then(() => {
-        middleware.SEEDSuccess();
+        middleware.DBSeedSuccess();
       })
       .then(() => {
         const { modelName } = model;
         const databaseName = model.db.name;
         const dumpsLength = dumps.length;
 
-        middleware.SEEDInfo(modelName, databaseName, dumpsLength);
+        middleware.DBSeedInfo(modelName, databaseName, dumpsLength);
       });
 
     await mongoose.connection.close();

@@ -18,11 +18,11 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 //  └───────────────────────────────────────────────────────────────────────────────────┘
 
 //  ──[  PATHS MODULES.  ]───────────────────────────────────────────────────────────────
-const services = resolveApp('src/mongodb/services');
+const utils = resolveApp('utils');
 const configurations = resolveApp('configuration');
 
 //  ──[  REQUIRE MODULES.  ]─────────────────────────────────────────────────────────────
-const service = require(services);
+const util = require(utils);
 const configuration = require(configurations);
 
 //  ┌───────────────────────────────────────────────────────────────────────────────────┐
@@ -30,7 +30,7 @@ const configuration = require(configurations);
 //  └───────────────────────────────────────────────────────────────────────────────────┘
 
 //  ──[  LOGGERS.  ]─────────────────────────────────────────────────────────────────────
-const { middleware } = service;
+const { middleware } = util;
 
 //  ──[  BUILD THE CONNECTION STRING.  ]─────────────────────────────────────────────────
 const {
