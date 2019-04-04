@@ -59,10 +59,10 @@ const logger = {
       message,
     });
   },
-  serverError: errors => {
+  serverError: error => {
     server.log({
       level: 'error',
-      message: errors,
+      message: error,
     });
   },
   serverClose: () => {
