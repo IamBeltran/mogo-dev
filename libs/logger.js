@@ -140,7 +140,7 @@ addColors(options.colors);
 const databaseInfo = new winston.transports.DailyRotateFile({
   level: 'info',
   filename: fileDatabaseInfo,
-  datePattern: 'YYYY-MM-DD-HH',
+  datePattern: 'YYYY-MM-DD',
   zippedArchive: true,
   maxSize: '100m',
   maxFiles: '14d', // keep logs for 14 days
@@ -150,7 +150,7 @@ const databaseInfo = new winston.transports.DailyRotateFile({
 const databaseError = new winston.transports.DailyRotateFile({
   level: 'error',
   filename: fileDatabaseError,
-  datePattern: 'YYYY-MM-DD-HH',
+  datePattern: 'YYYY-MM-DD',
   zippedArchive: true,
   maxSize: '100m',
   maxFiles: '14d', // keep logs for 14 days
@@ -160,7 +160,7 @@ const databaseError = new winston.transports.DailyRotateFile({
 const expressInfo = new winston.transports.DailyRotateFile({
   level: 'info',
   filename: fileExpressInfo,
-  datePattern: 'YYYY-MM-DD-HH',
+  datePattern: 'YYYY-MM-DD',
   zippedArchive: true,
   maxSize: '100m',
   maxFiles: '14d', // keep logs for 14 days
@@ -170,7 +170,7 @@ const expressInfo = new winston.transports.DailyRotateFile({
 const expressError = new winston.transports.DailyRotateFile({
   level: 'error',
   filename: fileExpressError,
-  datePattern: 'YYYY-MM-DD-HH',
+  datePattern: 'YYYY-MM-DD',
   zippedArchive: true,
   maxSize: '100m',
   maxFiles: '14d', // keep logs for 14 days
@@ -180,7 +180,7 @@ const expressError = new winston.transports.DailyRotateFile({
 const requestInfo = new winston.transports.DailyRotateFile({
   level: 'info',
   filename: fileRequestInfo,
-  datePattern: 'YYYY-MM-DD-HH',
+  datePattern: 'YYYY-MM-DD',
   zippedArchive: true,
   maxSize: '100m',
   maxFiles: '14d', // keep logs for 14 days
@@ -190,7 +190,7 @@ const requestInfo = new winston.transports.DailyRotateFile({
 const requestError = new winston.transports.DailyRotateFile({
   level: 'error',
   filename: fileRequestError,
-  datePattern: 'YYYY-MM-DD-HH',
+  datePattern: 'YYYY-MM-DD',
   zippedArchive: true,
   maxSize: '100m',
   maxFiles: '14d', // keep logs for 14 days
@@ -218,7 +218,7 @@ const requestConsole = new transports.Console({
 const serverInfo = new winston.transports.DailyRotateFile({
   level: 'info',
   filename: fileServerInfo,
-  datePattern: 'YYYY-MM-DD-HH',
+  datePattern: 'YYYY-MM-DD',
   zippedArchive: true,
   maxSize: '100m',
   maxFiles: '14d', // keep logs for 14 days
@@ -228,7 +228,7 @@ const serverInfo = new winston.transports.DailyRotateFile({
 const serverError = new winston.transports.DailyRotateFile({
   level: 'error',
   filename: fileServerError,
-  datePattern: 'YYYY-MM-DD-HH',
+  datePattern: 'YYYY-MM-DD',
   zippedArchive: true,
   maxSize: '100m',
   maxFiles: '14d', // keep logs for 14 days
