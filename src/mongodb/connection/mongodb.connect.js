@@ -34,7 +34,7 @@ const configuration = require(configurations);
 //  └───────────────────────────────────────────────────────────────────────────────────┘
 
 //  ──[ LOGGERS.  ]──────────────────────────────────────────────────────────────────────
-const { middleware } = util;
+const { middleware, logger } = util;
 
 //  ──[ DESTRUCTURING LOGGERS.  ]────────────────────────────────────────────────────────
 
@@ -57,6 +57,9 @@ mongoose.connection.on('disconnected', () => {
 
 //  ──[ WHEN IT IS CONNECTED.  ]─────────────────────────────────────────────────────────
 mongoose.connection.on('connected', () => {
+  const { name: nameDB, port: portDB } = mongoose.connection;
+  const { url } = mongoose.connection.client.s;
+  logger.DBConnectionStart(nameDB, portDB, url);
   middleware.DBconnectionOn('connected');
 });
 
@@ -66,6 +69,7 @@ mongoose.connection.on('connected', () => {
 
 //  ──[ IF THE CONNECTION THROWS AN ERROR.  ]────────────────────────────────────────────
 mongoose.connection.on('error', error => {
+  logger.DBConnectionError(error);
   middleware.DBconnectionOn('error');
   middleware.error(error, 'CONNECTION');
 });
@@ -77,6 +81,7 @@ mongoose.connection.on('reconnected', () => {
 
 //  ──[ WHEN IT IS CLOSE.  ]─────────────────────────────────────────────────────────────
 mongoose.connection.on('close', () => {
+  logger.DBConnectionClose();
   middleware.DBconnectionOn('close');
 });
 
@@ -128,6 +133,7 @@ async function connection() {
       middleware.DBStarted(name, port, databaseUrl);
     })
     .catch(error => {
+      logger.DBError(error);
       middleware.error(error, 'DATABASE');
     });
 }
